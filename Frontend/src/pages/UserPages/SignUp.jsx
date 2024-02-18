@@ -1,16 +1,36 @@
 import { Button } from "@/components/ui/button";
+import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { SpinnerCircular } from 'spinners-react';
+
 
 const SignUp = () => {
-  const [email, seteMail] = useState("");
-  const [password, setPasword] = useState("");
-  const [username, setUsername] = useState("");
-  const handleSubmit = (e) => {
+  const [formData, setFormData] = useState({});
+  const [error,setError]=useState(false);
+  const [loading,setLoading]=useState(false);
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setPasword(password)
-    seteMail(email)
-    setUsername(username)
+    try {
+      setLoading(true)
+      const options = {
+        method: "POST",
+        url: "/api/auth/signup",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: formData,
+      };
+      const response = await axios(options);
+      setLoading(false)
+      setError(false)
+    } catch (error) {
+     setLoading(false)
+     setError(true)
+    }
   };
   return (
     <div className="w-screen h-screen bg-black flex flex-col items-center justify-center">
@@ -18,42 +38,56 @@ const SignUp = () => {
         <div className="w-96 rounded-lg h-auto flex flex-col items-center bg-gray-900 justify-around ">
           <h1 className="text-4xl m-3 font-bold text-white">Signup</h1>
           <input
-            value={username}
-            onChange={(e) => {  
-              setUsername(e.target.value);
-            }}
+            onChange={handleChange}
+            id="username"
+            name="username"
             type="text"
             className="mt-3 px-3 py-2 w-72 rounded-md"
             placeholder="Enter Username"
           />
           <input
-            value={email}
-            onChange={(e) => {
-              seteMail(e.target.value);
-            }}
+            onChange={handleChange}
             type="text"
-            id="mail"
-            name="mail"
+            id="email"
+            name="email"
             className="m-5 px-3 py-2 w-72 rounded-md"
-            placeholder="Enter Mail"
+            placeholder="Enter Email"
           />
           <input
-            value={password}
-            onChange={(e) => {
-              setPasword(e.target.value);
-            }}
+            onChange={handleChange}
+            type="number"
+            id="phone"
+            name="phone"
+            className="mb-5 px-3 py-2 w-72 rounded-md"
+            placeholder="Enter Number"
+          />
+          <input
+            onChange={handleChange}
             type="password"
             id="password"
             name="password"
             className=" px-3 py-2 w-72 rounded-md "
             placeholder="Enter Password"
           />
-          <Button type="submit" className='bg-blue-700 mt-5 hover:bg-blue-900 hover:scale-110'>SignUp</Button>
+          <Button
+            type="submit"
+            className="bg-blue-700 uppercase mt-5 hover:bg-blue-900 hover:scale-110"
+          >
+           {loading ? (
+  <>
+    <SpinnerCircular size={30} thickness={168} speed={127} color="rgba(255, 255, 255, 1)" secondaryColor="rgba(0, 0, 0, 0.44)" />
+    &nbsp; Loading...
+  </>
+) : (
+  "Sign Up"
+)}
+
+          </Button>
           <div className="flex w-full items-end justify-end">
             <Link to="/login">
               {" "}
               <p className="m-5 text-blue-500 underline hover:no-underline">
-               Already Have a Account ?
+                Already Have a Account ?
               </p>
             </Link>
           </div>
