@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SpinnerCircular } from 'spinners-react';
 
 
 const SignUp = () => {
+  const navigate =useNavigate()
   const [formData, setFormData] = useState({});
   const [error,setError]=useState(false);
   const [loading,setLoading]=useState(false);
@@ -25,6 +26,7 @@ const SignUp = () => {
         data: formData,
       };
       const response = await axios(options);
+      navigate("/")
       setLoading(false)
       setError(false)
     } catch (error) {
