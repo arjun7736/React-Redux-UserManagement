@@ -26,9 +26,9 @@ const SignUp = () => {
         data: formData,
       };
       const response = await axios(options);
-      navigate("/")
+      navigate("/login")
       setLoading(false)
-      setError(false)
+      setError(false) 
     } catch (error) {
      setLoading(false)
      setError(true)

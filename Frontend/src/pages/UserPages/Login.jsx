@@ -35,7 +35,7 @@ const Login = () => {
         <div className="w-96 rounded-lg h-auto flex flex-col items-center bg-gray-900 justify-around ">
           <h1 className="text-4xl m-3 font-bold text-white">Login</h1>
           <p className="text-red-700 ">
-            {error && error.response.data.message ? error.response.data.message || "Something Went Wrong":""}
+            {error?.response &&  error?.response?.data?.message ? error.response.data.message || "Something Went Wrong":""}
           </p>
           <input
             onChange={handleChange}

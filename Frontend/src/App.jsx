@@ -4,13 +4,16 @@ import Login from "./pages/UserPages/Login";
 import SignUp from "./pages/UserPages/SignUp";
 import AdminLogin from "./pages/AdminPages/AdminLogin";
 import AdminHome from "./pages/AdminPages/AdminHome";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/" element={<Home />} />
+          </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/admin/login" element={<AdminLogin />} />
