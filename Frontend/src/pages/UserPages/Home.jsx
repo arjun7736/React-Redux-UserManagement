@@ -1,6 +1,7 @@
 import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { useSelector } from "react-redux";
 import React, { useEffect, useRef, useState } from "react";
 import {
   getDownloadURL,
@@ -11,6 +12,7 @@ import {
 import { app } from "@/firebase";
 
 const Home = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
   const fileRef = useRef(null);
   const [image, setImage] = useState(undefined);
@@ -56,7 +58,7 @@ const Home = () => {
         className="w-40 h-40 cursor-pointer"
         onClick={() => fileRef.current.click()}
       >
-        <AvatarImage src="https://cdn-icons-png.freepik.com/256/12225/12225773.png" />
+        <AvatarImage src={formData.profilePicture || "https://cdn-icons-png.freepik.com/256/12225/12225773.png"}/>
       </Avatar>
       <p>
         {imageError ? (
