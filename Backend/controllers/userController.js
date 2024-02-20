@@ -11,9 +11,14 @@ const updateUser = async (req, res, next) => {
         const updatedUser = await User.findByIdAndUpdate(
             req.params.id,
             {
-                $set: { profilePicture: req.body.profilePicture }
+                $set: {
+                    profilePicture: req.body.profilePicture,
+                    username: req.body.username,
+                    email: req.body.email
+                }
             }, { new: true })
-        res.status(200).json(updatedUser);
+        const { password: hashedPassword, ...rest } = updatedUser._doc;
+        res.status(200).json(rest);
     }
     catch (error) {
         next(error)
