@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
     },
     profilePicture: {
         type: String,
+        default:"https://cdn-icons-png.freepik.com/256/12225/12225773.png"
     }
 }, { timestamps: true })
 
