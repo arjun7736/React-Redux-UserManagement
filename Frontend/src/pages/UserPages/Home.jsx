@@ -4,6 +4,7 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
+  signOut,
 } from "@/redux/user/userSlice";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -21,13 +22,13 @@ import axios from "axios";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { currentUser,loading,error } = useSelector((state) => state.user);
+  const { currentUser, loading, error } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
   const fileRef = useRef(null);
   const [image, setImage] = useState(undefined);
   const [progress, setProgress] = useState(0);
   const [imageError, setImageError] = useState(false);
-  const [updateSuccess,setUpdateSuccess]=useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
 
   useEffect(() => {
     if (image) {
@@ -63,14 +64,22 @@ const Home = () => {
     e.preventDefault();
     dispatch(updateUserStart());
     try {
-     await axios
+      await axios
         .post(`/api/user/update/${currentUser.data._id}`, formData)
         .then((data) => {
           dispatch(updateUserSuccess(data));
-          setUpdateSuccess(true)
+          setUpdateSuccess(true);
         })
         .catch((data) => dispatch(updateUserFailure(data.message)));
     } catch (error) {}
+  };
+  const handleSignOut = async () => {
+    try {
+      await axios.get('/api/auth/logout')
+      dispatch(signOut());
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="flex flex-col items-center w-screen h-screen bg-slate-200 justify-center">
@@ -89,10 +98,7 @@ const Home = () => {
           onClick={() => fileRef.current.click()}
         >
           <AvatarImage
-            src={
-              formData.profilePicture ||
-              currentUser.data.profilePicture
-            }
+            src={formData.profilePicture || currentUser.data.profilePicture}
           />
         </Avatar>
         <p>
@@ -106,8 +112,10 @@ const Home = () => {
             ""
           )}
         </p>
-        <p className="text-red-700 m-5">{error&&"Something Went Wrong"}</p>
-        <p className="text-green-700 m-5">{updateSuccess&&"Updated Successfully"}</p>
+        <p className="text-red-700 m-5">{error && "Something Went Wrong"}</p>
+        <p className="text-green-700">
+          {updateSuccess && "Updated Successfully"}
+        </p>
         <input
           className="py-2 px-3 w-64 m-3"
           type="text"
@@ -122,21 +130,30 @@ const Home = () => {
           defaultValue={currentUser.data.email}
           onChange={handleChange}
         />
-        <Button className="m-5 hover:scale-110 uppercase"> {loading ? (
-              <>
-                <SpinnerCircular
-                  size={30}
-                  thickness={168}
-                  speed={127}
-                  color="rgba(255, 255, 255, 1)"
-                  secondaryColor="rgba(0, 0, 0, 0.44)"
-                />
-                &nbsp; Loading...
-              </>
-            ) : (
-              "update"
-            )}</Button>
+        <Button className="m-5 hover:scale-110 uppercase">
+          {" "}
+          {loading ? (
+            <>
+              <SpinnerCircular
+                size={30}
+                thickness={168}
+                speed={127}
+                color="rgba(255, 255, 255, 1)"
+                secondaryColor="rgba(0, 0, 0, 0.44)"
+              />
+              &nbsp; Loading...
+            </>
+          ) : (
+            "update"
+          )}
+        </Button>
       </form>
+      <p
+        onClick={handleSignOut}
+        className="ml-40 cursor-pointer font-bold text-red-500"
+      >
+        SignOut
+      </p>
     </div>
   );
 };

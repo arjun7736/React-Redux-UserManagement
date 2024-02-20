@@ -5,7 +5,7 @@ import { errorHandler } from "../utils/error.js";
 import jwt from 'jsonwebtoken';
 
 
- 
+
 
 
 export const signup = async (req, res, next) => {
@@ -33,9 +33,13 @@ export const login = async (req, res, next) => {
         }
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
         const { password: hashedPassword, ...rest } = user._doc;
-        const expire =new Date(Date.now()+3600000)
-        res.cookie("access_token", token, { httpOnly: true,expires:expire }).status(200).json(rest);
+        const expire = new Date(Date.now() + 3600000)
+        res.cookie("access_token", token, { httpOnly: true, expires: expire }).status(200).json(rest);
     } catch (error) {
         next(error)
     }
+}
+
+export const logout = (req, res) => {
+    res.clearCookie('access_token').status(200).json("Logout Succesfully")
 }
