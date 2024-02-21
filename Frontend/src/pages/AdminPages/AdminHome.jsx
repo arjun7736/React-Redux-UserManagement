@@ -12,24 +12,35 @@ import {
 } from "@/redux/admin/adminSlice";
 
 const AdminHome = () => {
+  const FetchApi = async () => {
+    dispatch(userFetchStart());
+    await axios
+      .post("/api/admin/fetchUser")
+      .then((data) => dispatch(userFetchSuccess(data.data)))
+      .catch((error) => {
+        dispatch(userFetchFailure(error));
+      });
+  };
   const dispatch = useDispatch();
   const { loading, error, userData } = useSelector((state) => state.admin);
   useEffect(() => {
-    dispatch(userFetchStart())
-    axios
+    dispatch(userFetchStart());
+     axios
       .post("/api/admin/fetchUser")
       .then((data) => dispatch(userFetchSuccess(data.data)))
-      .catch((error) => {dispatch(userFetchFailure(error))});
-  },[]);
+      .catch((error) => {
+        dispatch(userFetchFailure(error));
+      });
+  }, []);
   return (
     <div className="">
       <NavBar />
       <div className="w-screen h-screen flex ">
         <SideBar />
         <div className="w-full">
-        {userData.map((user) => (
-          <TableData key={user._id} userdata={user} />
-        ))}
+          {userData.map((user) => (
+            <TableData key={user._id} userdata={user} fun={FetchApi}/>
+          ))}
         </div>
       </div>
     </div>
