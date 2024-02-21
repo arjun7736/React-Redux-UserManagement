@@ -48,10 +48,25 @@ const userList = async (req, res, next) => {
 
 const editUser = async (req, res, next) => {
     try {
-
+        const id = req.params.id
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            {
+                $set: {
+                    profilePicture: req.body.profilePicture,
+                    username: req.body.username,
+                    email: req.body.email,
+                    phone:req.body.phone
+                }
+            }, { new: true })
+        const { password: hashedPassword, ...rest } = updatedUser._doc;
+        res.status(200).json(rest);
     } catch (error) {
         next(error)
     }
 }
 
-export { adminLogin, deleteUser, userList,editUser };
+
+
+
+export { adminLogin, deleteUser, userList, editUser };

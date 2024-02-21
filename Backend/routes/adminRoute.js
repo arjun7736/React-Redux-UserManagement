@@ -7,6 +7,6 @@ const router =express()
 router.post("/login",adminLogin)
 router.post("/deleteUser/:id",deleteUser)
 router.post("/fetchUser",userList)
-router.post("/editUser",editUser)
+router.post("/editUser/:id",editUser)
 
 export default router;
