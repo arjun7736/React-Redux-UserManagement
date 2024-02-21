@@ -56,7 +56,7 @@ const editUser = async (req, res, next) => {
                     profilePicture: req.body.profilePicture,
                     username: req.body.username,
                     email: req.body.email,
-                    phone:req.body.phone
+                    phone: req.body.phone
                 }
             }, { new: true })
         const { password: hashedPassword, ...rest } = updatedUser._doc;
@@ -66,7 +66,20 @@ const editUser = async (req, res, next) => {
     }
 }
 
+const searchUser = async (req, res, next) => {
+    const { data } = req.body
+    try {
+        const users = await User.find({
+            $or: [
+                { username: { $regex: data, $options: 'i' } },
+                { email: { $regex: data, $options: 'i' } },
+            ]
+        })
+        if (!users.length) return next(errorHandler(404, "User not Found"))
+        res.status(200).json(users)
+    } catch (error) {
+        next(error)
+    }
+}
 
-
-
-export { adminLogin, deleteUser, userList, editUser };
+export { adminLogin, deleteUser, userList, editUser, searchUser };
