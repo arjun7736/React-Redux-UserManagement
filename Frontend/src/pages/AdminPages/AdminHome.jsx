@@ -2,13 +2,35 @@ import React from "react";
 import TableData from "../../components/TableData";
 import SideBar from "@/components/SideBar";
 import NavBar from "@/components/NavBar";
+import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  userFetchFailure,
+  userFetchStart,
+  userFetchSuccess,
+} from "@/redux/admin/adminSlice";
+
 const AdminHome = () => {
+  const dispatch = useDispatch();
+  const { loading, error, userData } = useSelector((state) => state.admin);
+  useEffect(() => {
+    dispatch(userFetchStart())
+    axios
+      .post("/api/admin/fetchUser")
+      .then((data) => dispatch(userFetchSuccess(data.data)))
+      .catch((error) => {dispatch(userFetchFailure(error))});
+  },[]);
   return (
     <div className="">
-        <NavBar />
+      <NavBar />
       <div className="w-screen h-screen flex ">
         <SideBar />
-        <TableData />
+        <div className="w-full">
+        {userData.map((user) => (
+          <TableData key={user._id} userdata={user} />
+        ))}
+        </div>
       </div>
     </div>
   );

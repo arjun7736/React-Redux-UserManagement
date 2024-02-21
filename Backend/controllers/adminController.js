@@ -2,6 +2,7 @@ import bcryptjs from "bcryptjs"
 import { errorHandler } from "../utils/error.js";
 import jwt from 'jsonwebtoken';
 import Admin from '../model/adminModel.js'
+import User from "../model/userModel.js"
 
 const adminLogin = async (req, res, next) => {
     const { email, password } = req.body;
@@ -23,8 +24,34 @@ const adminLogin = async (req, res, next) => {
         next(err)
     }
 };
+const deleteUser = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const deletedUser = await User.findByIdAndDelete({ _id: id });
+        if (!deletedUser) {
+            return next(errorHandler(404, "No such user found!"))
+        }
+        res.status(200).json({ message: "Deleted Successfully" });
+    } catch (error) {
+        next(error)
+    }
+}
 
+const userList = async (req, res, next) => {
+    try {
+        const users = await User.find().select('-password');
+        res.status(200).json(users);
+    } catch (error) {
+        next(error)
+    }
+}
 
+const editUser = async (req, res, next) => {
+    try {
 
+    } catch (error) {
+        next(error)
+    }
+}
 
-export { adminLogin };
+export { adminLogin, deleteUser, userList,editUser };

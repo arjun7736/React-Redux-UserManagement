@@ -65,13 +65,16 @@ const Home = () => {
     dispatch(updateUserStart());
     try {
       await axios
-        .post(`/api/user/update/${currentUser.data._id}`, formData)
+        .post(`/api/user/update/${currentUser._id}`, formData)
         .then((data) => {
-          dispatch(updateUserSuccess(data));
+          console.log(data)
+          dispatch(updateUserSuccess(data.data));
           setUpdateSuccess(true);
         })
         .catch((data) => dispatch(updateUserFailure(data.message)));
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   };
   const handleSignOut = async () => {
     try {
@@ -98,7 +101,7 @@ const Home = () => {
           onClick={() => fileRef.current.click()}
         >
           <AvatarImage
-            src={formData.profilePicture || currentUser.data.profilePicture}
+            src={formData.profilePicture || currentUser?.profilePicture}
           />
         </Avatar>
         <p>
@@ -120,14 +123,14 @@ const Home = () => {
           className="py-2 px-3 w-64 m-3"
           type="text"
           id="username"
-          defaultValue={currentUser.data.username}
+          defaultValue={currentUser.username}
           onChange={handleChange}
         />
         <input
           className="py-2 px-3 w-64 m-3"
           type="email"
           id="email"
-          defaultValue={currentUser.data.email}
+          defaultValue={currentUser.email}
           onChange={handleChange}
         />
         <Button className="m-5 hover:scale-110 uppercase">
