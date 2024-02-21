@@ -78,7 +78,7 @@ const Home = () => {
       await axios.get('/api/auth/logout')
       dispatch(signOut());
     } catch (error) {
-      console.log(error);
+      console.log(error); 
     }
   };
   return (

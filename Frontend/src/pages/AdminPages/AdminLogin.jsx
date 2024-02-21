@@ -2,23 +2,21 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 const AdminLogin = () => {
-  const [mail, setMail] = useState("");
-  const [password, setPasword] = useState("");
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setMail(mail);
-    setPasword(password);
+  const [formData, setFormData] = useState({});
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+  }
   return (
     <div className="w-screen h-screen bg-black flex flex-col items-center justify-center">
       <form onSubmit={handleSubmit}>
         <div className="w-96 rounded-lg h-auto flex flex-col items-center bg-gray-900 justify-around ">
           <h1 className="text-4xl m-3 font-bold text-white">Admin Login</h1>
           <input
-            value={mail}
-            onChange={(e) => {
-              setMail(e.target.value);
-            }}
+            onChange={handleChange}
             type="text"
             id="mail"
             name="mail"
@@ -26,10 +24,7 @@ const AdminLogin = () => {
             placeholder="Enter Mail"
           />
           <input
-            value={password}
-            onChange={(e) => {
-              setPasword(e.target.value);
-            }}
+            onChange={handleChange}
             type="password"
             id="password"
             name="password"
