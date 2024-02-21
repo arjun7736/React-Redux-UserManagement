@@ -21,7 +21,7 @@ const Login = () => {
       await axios
         .post("/api/auth/login", formData)
         .then((data) => {
-          dispatch(logInSuccess(data));
+          dispatch(logInSuccess(data.data));
           navigate("/");
         })
         .catch((error) => dispatch(logInFailure(error)));
