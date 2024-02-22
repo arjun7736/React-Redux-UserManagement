@@ -18,29 +18,41 @@ const adminSlice = createSlice({
             state.loading = false;
             state.error = false;
         },
-        loginError: (state, action) => { 
-            state.loading=false;
+        loginError: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        userFetchStart: (state) => {
+            state.loading = true;
+        },
+        userFetchSuccess: (state, action) => {
+            state.userData = action.payload;
+            state.error = false;
+            state.loading = false;
+        },
+        userFetchFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        userUpdateStart: (state) => {
+            state.loading = false
+        },
+        userUpdateSuccess: (state, action) => {
+            state.updatedUserData = action.payload;
+            state.loading = false;
+            state.error = false;
+        },
+        userUpdateError: (state, action) => {
+            state.loading = false;
             state.error=action.payload;
         },
-        userFetchStart:(state)=>{
-            state.loading=true;
-        },
-        userFetchSuccess:(state,action)=>{
-            state.userData=action.payload;
-            state.error=false;
-            state.loading=false;
-        },
-        userFetchFailure:(state,action)=>{
-            state.loading=false;
-            state.error=action.payload;
-        },
-        signOut:(state)=>{
-            state.currentAdmin=null;
-            state.loading=false;
-            state.error=false
+        signOut: (state) => {
+            state.currentAdmin = null;
+            state.loading = false;
+            state.error = false
         }
     }
 })
 
-export const {loginStart,signOut,loginSuccess,loginError,userFetchStart,userFetchSuccess,userFetchFailure }=adminSlice.actions
+export const { loginStart, signOut, loginSuccess, loginError, userFetchStart, userFetchSuccess, userFetchFailure,userUpdateError,userUpdateSuccess,userUpdateStart } = adminSlice.actions
 export default adminSlice.reducer;

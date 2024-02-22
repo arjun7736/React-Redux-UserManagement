@@ -5,6 +5,7 @@ import SignUp from "./pages/UserPages/SignUp";
 import AdminLogin from "./pages/AdminPages/AdminLogin";
 import AdminHome from "./pages/AdminPages/AdminHome";
 import { useSelector } from "react-redux";
+import EditUser from "./pages/AdminPages/EditUser"
 
 function App() {
   const useAuthCheck = () => {
@@ -15,9 +16,9 @@ function App() {
   const adminCheck = () => {
     const { currentAdmin } = useSelector((state) => state.admin);
     const adminLogin = !!currentAdmin;
-    return  adminLogin
+    return adminLogin;
   };
-  const isAdminLoggedIn=adminCheck();
+  const isAdminLoggedIn = adminCheck();
   const isLoggedIn = useAuthCheck();
   return (
     <>
@@ -26,8 +27,9 @@ function App() {
           <Route path="/" element={isLoggedIn ? <Home /> : <Login />} />
           <Route path="/login" element={isLoggedIn ? <Home /> : <Login />} />
           <Route path="/signup" element={isLoggedIn ? <Home /> : <SignUp />} />
-          <Route path="/admin/login" element={isAdminLoggedIn?<AdminHome/>: <AdminLogin />} />
-          <Route path="/admin" element={isAdminLoggedIn?<AdminHome />:<AdminLogin/>} />
+          <Route path="/admin/login" element={isAdminLoggedIn ? <AdminHome /> : <AdminLogin />}/>
+          <Route path="/admin" element={isAdminLoggedIn ? <AdminHome /> : <AdminLogin />} />
+          <Route path="/admin/editUser/:id" element={<EditUser />} />
         </Routes>
       </BrowserRouter>
     </>

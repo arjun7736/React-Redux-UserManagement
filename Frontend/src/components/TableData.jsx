@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./ui/button";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const TableData = ({ userdata, fun}) => {
   const DeleteUser = async () => {
@@ -53,7 +54,7 @@ const TableData = ({ userdata, fun}) => {
         <div>
           <TableHead>Actions</TableHead>
           <TableRow className="h-12 flex items-center border-none">
-            <Button className="mx-3">Edit</Button>
+            <Button className="mx-3" ><Link to={`editUser/${userdata._id}`} data={userdata}>Edit User</Link></Button>
             <Button onClick={DeleteUser}>Delete</Button>
           </TableRow>
         </div>

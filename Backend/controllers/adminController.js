@@ -82,9 +82,30 @@ const searchUser = async (req, res, next) => {
     }
 }
 
-const logOut=(req,res)=>{
-res.clearCookie('access_token').status(200).json("LogOut")
+const updateUser = async (req, res, next) => {
+    try {
+        const UpdateUser = await User.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set: {
+                    profilePicture: req.body.profilePicture,
+                    username: req.body.username,
+                    email: req.body.email,
+                    phone:req.body.phone
+                }
+            }, { new: true })
+        res.status(200).json(UpdateUser)
+    } catch (error) {
+        next(error)
+    }
 }
 
 
-export { adminLogin, deleteUser, userList, editUser, searchUser,logOut };
+
+
+const logOut = (req, res) => {
+    res.clearCookie('access_token').status(200).json("LogOut")
+}
+
+
+export { adminLogin, deleteUser, userList, editUser, searchUser, logOut,updateUser };
