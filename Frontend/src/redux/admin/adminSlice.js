@@ -57,6 +57,8 @@ const adminSlice = createSlice({
         userSearchError: (state, action) => {
             state.loading = false;
             state.error = action.payload;
+            state.userData = [];
+
         },
         signOut: (state) => {
             state.currentAdmin = null;

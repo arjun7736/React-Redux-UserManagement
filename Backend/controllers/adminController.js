@@ -67,8 +67,8 @@ const editUser = async (req, res, next) => {
 }
 
 const searchUser = async (req, res, next) => {
-    const { search } = req.body
     try {
+        const { search } = req.body
         const users = await User.find({
             $or: [
                 { username: { $regex: search, $options: 'i' } },

@@ -25,7 +25,7 @@ const AdminHome = () => {
   const { loading, error, userData } = useSelector((state) => state.admin);
   useEffect(() => {
     dispatch(userFetchStart());
-     axios
+    axios
       .post("/api/admin/fetchUser")
       .then((data) => dispatch(userFetchSuccess(data.data)))
       .catch((error) => {
@@ -38,9 +38,14 @@ const AdminHome = () => {
       <div className="w-screen h-screen flex ">
         <SideBar />
         <div className="w-full overflow-scroll mt-20">
-          {userData?.map((user) => (
-            <TableData key={user._id} userdata={user} fun={FetchApi}/>
-          ))}
+          {console.log(userData)}
+          {userData.length === 0 ? (
+            <p className="mt-20 text-center">No users Found</p>
+          ) : (
+            userData.map((user) => (
+              <TableData key={user._id} userdata={user} fun={FetchApi} />
+            ))
+          )}
         </div>
       </div>
     </div>
