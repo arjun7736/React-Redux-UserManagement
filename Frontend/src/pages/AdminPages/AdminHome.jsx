@@ -37,7 +37,7 @@ const AdminHome = () => {
       <NavBar />
       <div className="w-screen h-screen flex ">
         <SideBar />
-        <div className="w-full overflow-scroll mt-10">
+        <div className="w-full overflow-scroll mt-20">
           {userData?.map((user) => (
             <TableData key={user._id} userdata={user} fun={FetchApi}/>
           ))}

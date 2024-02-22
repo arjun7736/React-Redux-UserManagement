@@ -67,12 +67,12 @@ const editUser = async (req, res, next) => {
 }
 
 const searchUser = async (req, res, next) => {
-    const { data } = req.body
+    const { search } = req.body
     try {
         const users = await User.find({
             $or: [
-                { username: { $regex: data, $options: 'i' } },
-                { email: { $regex: data, $options: 'i' } },
+                { username: { $regex: search, $options: 'i' } },
+                { email: { $regex: search, $options: 'i' } },
             ]
         })
         if (!users.length) return next(errorHandler(404, "User not Found"))

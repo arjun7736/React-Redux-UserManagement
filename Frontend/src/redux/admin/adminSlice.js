@@ -44,7 +44,19 @@ const adminSlice = createSlice({
         },
         userUpdateError: (state, action) => {
             state.loading = false;
-            state.error=action.payload;
+            state.error = action.payload;
+        },
+        userSearchStart: (state) => {
+            state.loading = false
+        },
+        userSearchSuccess: (state, action) => {
+            state.userData = action.payload;
+            state.loading = false;
+            state.error = false;
+        },
+        userSearchError: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
         },
         signOut: (state) => {
             state.currentAdmin = null;
@@ -54,5 +66,5 @@ const adminSlice = createSlice({
     }
 })
 
-export const { loginStart, signOut, loginSuccess, loginError, userFetchStart, userFetchSuccess, userFetchFailure,userUpdateError,userUpdateSuccess,userUpdateStart } = adminSlice.actions
+export const { loginStart, signOut, loginSuccess, loginError, userFetchStart, userFetchSuccess, userFetchFailure, userUpdateError, userUpdateSuccess, userUpdateStart,userSearchError,userSearchSuccess,userSearchStart } = adminSlice.actions
 export default adminSlice.reducer;
