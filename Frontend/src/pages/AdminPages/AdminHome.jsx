@@ -38,7 +38,7 @@ const AdminHome = () => {
       <div className="w-screen h-screen flex ">
         <SideBar />
         <div className="w-full">
-          {userData.map((user) => (
+          {userData?.map((user) => (
             <TableData key={user._id} userdata={user} fun={FetchApi}/>
           ))}
         </div>

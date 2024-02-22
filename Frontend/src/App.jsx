@@ -12,16 +12,22 @@ function App() {
     const isLoggedIn = !!currentUser;
     return isLoggedIn;
   };
+  const adminCheck = () => {
+    const { currentAdmin } = useSelector((state) => state.admin);
+    const adminLogin = !!currentAdmin;
+    return  adminLogin
+  };
+  const isAdminLoggedIn=adminCheck();
   const isLoggedIn = useAuthCheck();
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={isLoggedIn?<Home />:<Login/>} />
+          <Route path="/" element={isLoggedIn ? <Home /> : <Login />} />
           <Route path="/login" element={isLoggedIn ? <Home /> : <Login />} />
           <Route path="/signup" element={isLoggedIn ? <Home /> : <SignUp />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminHome />} />
+          <Route path="/admin/login" element={isAdminLoggedIn?<AdminHome/>: <AdminLogin />} />
+          <Route path="/admin" element={isAdminLoggedIn?<AdminHome />:<AdminLogin/>} />
         </Routes>
       </BrowserRouter>
     </>

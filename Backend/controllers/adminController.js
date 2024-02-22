@@ -82,4 +82,9 @@ const searchUser = async (req, res, next) => {
     }
 }
 
-export { adminLogin, deleteUser, userList, editUser, searchUser };
+const logOut=(req,res)=>{
+res.clearCookie('access_token').status(200).json("LogOut")
+}
+
+
+export { adminLogin, deleteUser, userList, editUser, searchUser,logOut };

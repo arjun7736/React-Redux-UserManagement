@@ -33,9 +33,14 @@ const adminSlice = createSlice({
         userFetchFailure:(state,action)=>{
             state.loading=false;
             state.error=action.payload;
+        },
+        signOut:(state)=>{
+            state.currentAdmin=null;
+            state.loading=false;
+            state.error=false
         }
     }
 })
 
-export const {loginStart,loginSuccess,loginError,userFetchStart,userFetchSuccess,userFetchFailure }=adminSlice.actions
+export const {loginStart,signOut,loginSuccess,loginError,userFetchStart,userFetchSuccess,userFetchFailure }=adminSlice.actions
 export default adminSlice.reducer;
