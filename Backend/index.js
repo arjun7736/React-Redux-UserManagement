@@ -17,7 +17,7 @@ app.use("/api/auth", authRoute)
 app.use("/api/admin",adminRoute)
 
 app.use((err, req, res, next) => {
-    const statusCode = err.statusCode 
+    const statusCode = err.statuscode || 500
     const message = err.message || 'Internal Server Error';
     return res.status(statusCode).json({
         success: false,

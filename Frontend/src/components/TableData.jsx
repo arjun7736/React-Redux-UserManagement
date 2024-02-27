@@ -15,8 +15,11 @@ import { Link } from "react-router-dom";
 const TableData = ({ userdata, fun}) => {
   const DeleteUser = async () => {
     try {
-      await axios.delete(`/api/admin/deleteUser/${userdata?._id}`);
-      fun()
+      const isConfirmed = window.confirm('Are you sure you want to delete this user?');
+      if (isConfirmed) {
+        await axios.delete(`/api/admin/deleteUser/${userdata?._id}`);
+        fun();
+      }
     } catch (error) {
       console.log(error);
     }

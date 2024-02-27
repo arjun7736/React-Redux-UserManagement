@@ -1,6 +1,5 @@
 import express from "express";
 import { adminLogin, deleteUser, editUser, logOut, searchUser, updateUser, userList } from "../controllers/adminController.js";
-import { verifyToken } from "../utils/verifyAdmin.js";
 const router = express()
 
 

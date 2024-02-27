@@ -1,43 +1,47 @@
 import { Button } from "@/components/ui/button";
+import { logInFailure, logInStart, logInSuccess, signUpError, signUpStart, signUpSuccess } from "@/redux/user/userSlice";
 import axios from "axios";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { SpinnerCircular } from "spinners-react";
 
 const SignUp = () => {
+  const {error,loading}=useSelector((state)=>state.user)
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
-      await axios.post("/api/auth/signup", formData)
+      dispatch(signUpStart());
+      await axios
+        .post("/api/auth/signup", formData)
         .then((data) => {
-          setLoading(false);
-          setError(false);
-          navigate("/login");
+          dispatch(signUpSuccess(data.data));
+          navigate("/");
         })
         .catch((error) => {
-          setError(true);
+          dispatch(signUpError(error));
         });
     } catch (error) {
-      setLoading(false);
-      setError(true);
+      dispatch(signUpError(error))
     }
   };
-  
+
   return (
     <div className="w-screen h-screen bg-black flex flex-col items-center justify-center">
       <form onSubmit={handleSubmit}>
         <div className="w-96 rounded-lg h-auto flex flex-col items-center bg-gray-900 justify-around ">
           <h1 className="text-4xl m-3 font-bold text-white">Signup</h1>
-          <Toaster  position="top-right"/>
-          <p className="text-red-700 ">{error && "Something Went Wrong"}</p>
+          <p className="text-red-700 ">
+            {error?.response && error?.response?.data?.message
+              ? error.response.data.message || "Something Went Wrong"
+              : ""}
+          </p>
           <input
             onChange={handleChange}
             id="username"
