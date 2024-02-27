@@ -5,7 +5,7 @@ const router = express()
 
 
 router.post("/login", adminLogin)
-router.post("/deleteUser/:id", deleteUser)
+router.delete("/deleteUser/:id", deleteUser)
 router.post("/fetchUser", userList)
 router.post("/editUser/:id", editUser)
 router.post("/searchUser", searchUser)

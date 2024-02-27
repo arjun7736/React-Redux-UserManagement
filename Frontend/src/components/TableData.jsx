@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 const TableData = ({ userdata, fun}) => {
   const DeleteUser = async () => {
     try {
-      await axios.post(`/api/admin/deleteUser/${userdata._id}`);
+      await axios.delete(`/api/admin/deleteUser/${userdata?._id}`);
       fun()
     } catch (error) {
       console.log(error);
@@ -29,32 +29,32 @@ const TableData = ({ userdata, fun}) => {
           <TableHead>Profile Image</TableHead>
           <TableRow className="h-12 border-none">
             <Avatar className="h-12 w-12">
-              <AvatarImage src={`${userdata.profilePicture}`} />
+              <AvatarImage src={`${userdata?.profilePicture}`} />
             </Avatar>
           </TableRow>
         </div>
         <div>
           <TableHead>Name</TableHead>
           <TableRow className="h-12 flex items-center border-none">
-            {userdata.username}
+            {userdata?.username}
           </TableRow>
         </div>
         <div>
           <TableHead>Mobile</TableHead>
           <TableRow className="h-12 flex items-center border-none">
-            {userdata.phone}
+            {userdata?.phone}
           </TableRow>
         </div>
         <div>
           <TableHead>Mail</TableHead>
           <TableRow className="h-12 flex items-center border-none">
-            {userdata.email}
+            {userdata?.email}
           </TableRow>
         </div>
         <div>
           <TableHead>Actions</TableHead>
           <TableRow className="h-12 flex items-center border-none">
-            <Button className="mx-3" ><Link to={`editUser/${userdata._id}`} data={userdata}>Edit User</Link></Button>
+            <Button className="mx-3" ><Link to={`editUser/${userdata?._id}`} data={userdata}>Edit User</Link></Button>
             <Button onClick={DeleteUser}>Delete</Button>
           </TableRow>
         </div>

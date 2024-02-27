@@ -94,7 +94,8 @@ const updateUser = async (req, res, next) => {
                     phone:req.body.phone
                 }
             }, { new: true })
-        res.status(200).json(UpdateUser)
+            const { password: hashedPassword, ...rest } = UpdateUser._doc;
+        res.status(200).json(rest)
     } catch (error) {
         next(error)
     }
